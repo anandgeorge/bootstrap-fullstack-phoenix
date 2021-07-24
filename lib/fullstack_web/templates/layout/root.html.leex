@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Fullstack", suffix: " Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <nav class="shadow-sm navbar navbar-expand-md navbar-light bg-light fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Fullstack</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="mb-2 navbar-nav me-auto mb-md-0">
+            <li class="nav-item">
+              <%= link "Home", to: Routes.page_path(@conn, :index), class: "nav-link" %>
+            </li>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <li class="nav-item">
+                <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+          <ul class="navbar-nav">
+            <%= render "_user_menu.html", assigns %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <%= @inner_content %>
+
+    <footer class="py-3 mt-auto footer bg-dark">
+      <div class="container text-sm text-center text-light">
+        &copy; <%= DateTime.utc_now.year %> Fullstack
+      </div>
+    </footer>
+  </body>
+</html>
